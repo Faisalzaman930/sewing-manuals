@@ -98,3 +98,10 @@ export async function getAllBrandSlugs(): Promise<{ slug: string }[]> {
     .select("slug");
   return (data as { slug: string }[]) ?? [];
 }
+
+export async function getAllTroubleshootingSlugs(): Promise<{ slug: string }[]> {
+  const { data } = await adminClient()
+    .from("troubleshooting")
+    .select("slug");
+  return (data as { slug: string }[]) ?? [];
+}

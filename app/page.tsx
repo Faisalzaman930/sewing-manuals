@@ -101,7 +101,7 @@ export default async function HomePage() {
           {CATEGORIES.map(({ key, emoji }) => (
             <Link
               key={key}
-              href={`/brands?category=${key}`}
+              href={`/categories/${key}`}
               className="flex items-center gap-3 rounded-lg border border-iron-200 bg-white p-4 no-underline hover:border-steel-600"
             >
               <span className="text-2xl">{emoji}</span>

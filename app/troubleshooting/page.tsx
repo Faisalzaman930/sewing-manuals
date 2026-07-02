@@ -82,7 +82,9 @@ export default async function TroubleshootingPage() {
             {items.map((r) => (
               <div key={r.id} className="rounded-lg border border-iron-200 bg-white p-5">
                 <div className="flex flex-wrap items-center gap-2">
-                  <h3 className="font-semibold text-iron-900">{r.symptom}</h3>
+                  <Link href={`/troubleshooting/${r.slug}`} className="font-semibold text-iron-900 hover:text-steel-700">
+                    {r.symptom}
+                  </Link>
                   <span
                     className={`rounded px-2 py-0.5 text-xs font-medium ${DIFFICULTY_COLORS[r.difficulty]}`}
                   >

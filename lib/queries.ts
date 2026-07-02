@@ -88,10 +88,8 @@ export async function getAllMachineSlugs(): Promise<{ slug: string; brand_slug: 
   const { data } = await publicClient()
     .from("machines")
     .select("slug, brand:brands(slug)");
-  return ((data as { slug: string; brand: { slug: string } }[]) ?? []).map((r) => ({
-    slug: r.slug,
-    brand_slug: r.brand.slug,
-  }));
+  const rows = (data as unknown as { slug: string; brand: { slug: string } }[]) ?? [];
+  return rows.map((r) => ({ slug: r.slug, brand_slug: r.brand?.slug ?? "" }));
 }
 
 export async function getAllBrandSlugs(): Promise<{ slug: string }[]> {

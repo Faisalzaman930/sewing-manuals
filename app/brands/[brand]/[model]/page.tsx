@@ -100,17 +100,31 @@ export default async function ModelPage({
         )}
       </header>
 
-      {machine.manual_url && (
-        <section>
-          <h2 className="mb-3 text-xl font-bold text-iron-900">
-            {brand?.name} {machine.model_name} Manual (PDF)
-          </h2>
+      <section>
+        <h2 className="mb-3 text-xl font-bold text-iron-900">
+          {brand?.name} {machine.model_name} Manual
+        </h2>
+        {machine.manual_url ? (
           <PdfViewer
             url={machine.manual_url}
             title={`${brand?.name} ${machine.model_name} Instruction Manual`}
           />
-        </section>
-      )}
+        ) : (
+          <div className="rounded-lg border border-iron-200 bg-white p-5">
+            <p className="text-sm text-iron-600 mb-3">
+              We don&apos;t have a direct link for this model yet. ManualsLib hosts manuals for most industrial sewing machines — search there:
+            </p>
+            <a
+              href={`https://www.manualslib.com/search/?q=${encodeURIComponent(`${brand?.name ?? ""} ${machine.model_name}`)}`}
+              target="_blank"
+              rel="nofollow noreferrer"
+              className="inline-flex items-center gap-2 rounded-lg bg-steel-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-steel-700"
+            >
+              Search ManualsLib for {machine.model_name} manual →
+            </a>
+          </div>
+        )}
+      </section>
 
       <section>
         <h2 className="mb-3 text-xl font-bold text-iron-900">Full specifications</h2>

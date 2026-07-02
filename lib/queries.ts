@@ -84,11 +84,14 @@ export async function searchMachines(query: string): Promise<Machine[]> {
   return (data as Machine[]) ?? [];
 }
 
-export async function getAllMachineSlugs(): Promise<{ slug: string; updated_at?: string }[]> {
+export async function getAllMachineSlugs(): Promise<{ slug: string; brand_slug: string }[]> {
   const { data } = await publicClient()
     .from("machines")
-    .select("slug");
-  return (data as { slug: string }[]) ?? [];
+    .select("slug, brand:brands(slug)");
+  return ((data as { slug: string; brand: { slug: string } }[]) ?? []).map((r) => ({
+    slug: r.slug,
+    brand_slug: r.brand.slug,
+  }));
 }
 
 export async function getAllBrandSlugs(): Promise<{ slug: string }[]> {

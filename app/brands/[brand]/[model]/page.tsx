@@ -14,7 +14,7 @@ export const dynamicParams = true;
 
 export async function generateStaticParams() {
   const slugs = await getAllMachineSlugs().catch(() => []);
-  return slugs.map((s) => ({ model: s.slug }));
+  return slugs.map((s) => ({ brand: s.brand_slug, model: s.slug }));
 }
 
 export async function generateMetadata({

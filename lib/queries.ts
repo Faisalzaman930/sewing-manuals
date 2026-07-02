@@ -1,8 +1,8 @@
-import { publicClient } from "./supabase";
+import { adminClient } from "./supabase";
 import type { Brand, Machine, TroubleshootingRecord, MachineCategory } from "./types";
 
 export async function getBrands(): Promise<Brand[]> {
-  const { data } = await publicClient()
+  const { data } = await adminClient()
     .from("brands")
     .select("*")
     .order("name");
@@ -10,7 +10,7 @@ export async function getBrands(): Promise<Brand[]> {
 }
 
 export async function getBrandBySlug(slug: string): Promise<Brand | null> {
-  const { data } = await publicClient()
+  const { data } = await adminClient()
     .from("brands")
     .select("*")
     .eq("slug", slug)
@@ -19,7 +19,7 @@ export async function getBrandBySlug(slug: string): Promise<Brand | null> {
 }
 
 export async function getMachinesByBrand(brandId: string): Promise<Machine[]> {
-  const { data } = await publicClient()
+  const { data } = await adminClient()
     .from("machines")
     .select("*, brand:brands(*)")
     .eq("brand_id", brandId)
@@ -28,7 +28,7 @@ export async function getMachinesByBrand(brandId: string): Promise<Machine[]> {
 }
 
 export async function getMachineBySlug(slug: string): Promise<Machine | null> {
-  const { data } = await publicClient()
+  const { data } = await adminClient()
     .from("machines")
     .select("*, brand:brands(*)")
     .eq("slug", slug)
@@ -37,7 +37,7 @@ export async function getMachineBySlug(slug: string): Promise<Machine | null> {
 }
 
 export async function getMachinesByCategory(category: MachineCategory): Promise<Machine[]> {
-  const { data } = await publicClient()
+  const { data } = await adminClient()
     .from("machines")
     .select("*, brand:brands(*)")
     .eq("category", category)
@@ -48,7 +48,7 @@ export async function getMachinesByCategory(category: MachineCategory): Promise<
 export async function getTroubleshootingForMachine(
   machineId: string
 ): Promise<TroubleshootingRecord[]> {
-  const { data } = await publicClient()
+  const { data } = await adminClient()
     .from("troubleshooting")
     .select("*")
     .or(`machine_id.eq.${machineId},machine_id.is.null`)
@@ -57,7 +57,7 @@ export async function getTroubleshootingForMachine(
 }
 
 export async function getAllTroubleshooting(): Promise<TroubleshootingRecord[]> {
-  const { data } = await publicClient()
+  const { data } = await adminClient()
     .from("troubleshooting")
     .select("*")
     .order("category, symptom");
@@ -67,7 +67,7 @@ export async function getAllTroubleshooting(): Promise<TroubleshootingRecord[]> 
 export async function getTroubleshootingBySlug(
   slug: string
 ): Promise<TroubleshootingRecord | null> {
-  const { data } = await publicClient()
+  const { data } = await adminClient()
     .from("troubleshooting")
     .select("*")
     .eq("slug", slug)
@@ -76,7 +76,7 @@ export async function getTroubleshootingBySlug(
 }
 
 export async function searchMachines(query: string): Promise<Machine[]> {
-  const { data } = await publicClient()
+  const { data } = await adminClient()
     .from("machines")
     .select("*, brand:brands(*)")
     .ilike("model_name", `%${query}%`)
@@ -85,7 +85,7 @@ export async function searchMachines(query: string): Promise<Machine[]> {
 }
 
 export async function getAllMachineSlugs(): Promise<{ slug: string; brand_slug: string }[]> {
-  const { data } = await publicClient()
+  const { data } = await adminClient()
     .from("machines")
     .select("slug, brand:brands(slug)");
   const rows = (data as unknown as { slug: string; brand: { slug: string } }[]) ?? [];
@@ -93,7 +93,7 @@ export async function getAllMachineSlugs(): Promise<{ slug: string; brand_slug: 
 }
 
 export async function getAllBrandSlugs(): Promise<{ slug: string }[]> {
-  const { data } = await publicClient()
+  const { data } = await adminClient()
     .from("brands")
     .select("slug");
   return (data as { slug: string }[]) ?? [];

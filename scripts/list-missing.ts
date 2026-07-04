@@ -15,7 +15,7 @@ async function run() {
   const { data } = await db.from("machines")
     .select("slug, model_name, manual_url, manual_source, brand:brands(name)")
     .order("slug");
-  const rows = (data ?? []) as { slug: string; model_name: string; manual_url: string | null; manual_source: string | null; brand: { name: string } | null }[];
+  const rows = (data ?? []) as unknown as { slug: string; model_name: string; manual_url: string | null; manual_source: string | null; brand: { name: string } | null }[];
 
   const noPdf    = rows.filter(m => !m.manual_url?.includes(".pdf"));
   const noAny    = rows.filter(m => !m.manual_url);

@@ -14,7 +14,7 @@ async function run() {
   const { data } = await db.from("machines")
     .select("slug, model_name, description, category, brand:brands(name)")
     .in("slug", slugs);
-  for (const m of (data ?? []) as { slug:string; model_name:string; description:string|null; category:string; brand:{name:string}|null }[]) {
+  for (const m of (data ?? []) as unknown as { slug:string; model_name:string; description:string|null; category:string; brand:{name:string}|null }[]) {
     console.log(`\nSlug:     ${m.slug}`);
     console.log(`Brand:    ${(m.brand as {name:string}|null)?.name}`);
     console.log(`Model:    ${m.model_name}`);
